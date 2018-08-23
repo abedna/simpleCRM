@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Modules\Companies\Controllers;
+
+use App\Company;
+use App\Employee;
+use Illuminate\Http\Request;
+
+
+class EmployeesController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    //passes id parameter
+    public function show($id){
+
+        //$employees = Company::find($id)->employees
+        $company = Company::find($id);
+        $employees = Employee::with('companies')->where('company', $id)->get();
+
+        return view('Companies::employees',  compact('employees', 'id', 'company'));
+    }
+
+    public function store(Request $request, Company $company){
+
+        $validated=$this->validate($request,[
+            'firstName'=>'required',
+            'lastName'=>'required',
+            'email'=>'required|email',
+            'phone'=>'required|integer'
+        ]);
+
+        $employee= new Employee();
+        $employee->firstName=$validated['firstName'];
+        $employee->lastName=$validated['lastName'];
+        $employee->email=$validated['email'];
+        $employee->phone=$validated['phone'];
+        $company->employees()->save($employee);
+        return back()->with('message','Record added');;
+
+    }
+
+    public function edit($company, $employee){
+        $employee=Employee::find($employee);
+        return view('Companies::editemployee', compact('employee'));
+    }
+
+    public function update($company, Employee $employee, Request $request){
+        //$employee=Employee::find($employee);
+        
+        $validated=$this->validate($request,[
+            'firstName'=>'required',
+            'lastName'=>'required',
+            'email'=>'required|email',
+            'phone'=>'required|integer'
+        ]);
+
+        $employee->firstName=$validated['firstName'];
+        $employee->lastName=$validated['lastName'];
+        $employee->email=$validated['email'];
+        $employee->phone=$validated['phone'];
+        $employee->save();
+        return redirect()->route('listemployees', ['company' => $company])->with('message','Record updated');
+
+    }
+
+    public function delete($company, $employee)
+    {
+        $employee=Employee::find($employee);
+        $employee->forceDelete();
+        return redirect()->route('listemployees', ['company' => $company])->with('deleted', 'Record deleted');
+
+    }
+}
