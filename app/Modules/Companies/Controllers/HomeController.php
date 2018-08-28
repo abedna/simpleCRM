@@ -41,12 +41,7 @@ class HomeController extends Controller
 
     public function store(Request $request){
 
-        $validated=$this->validate($request, [
-            'Name' => 'required',
-            'email'=>'required|email',
-            'website'=>'required|url',
-            'logo'=>'required|image'
-        ]);
+        $validated=$this->validateForm($request);
 
         //TODO wyodrębnij plik z requesta
 
@@ -104,21 +99,32 @@ class HomeController extends Controller
     }
 
     public function update(Request $request, Company $company){
-        $validated=$this->validate($request, [
+
+        $customErrorMessages=[
+            'url'=>'The website address must have such form: https://domainname.extension '
+        ];
+
+        $validationRules=[
             'Name' => 'required',
             'email'=>'required|email',
             'website'=>'required|url',
-            'logo'=>'required|image'
-        ]);
+            'logo'=>'image'
+        ];
 
-        $file = $request->file('logo');
-        $randomFileName=$this->getRandomFileName($file);
-        $file ->storePubliclyAs('/upload', $randomFileName);
+        $validated= $this->validate($request, $validationRules, $customErrorMessages);
 
-        $url = $company->logo;
-        Storage::delete($url);
+        if($request->file(('logo'))){
+            $file = $request->file('logo');
+            $randomFileName=$this->getRandomFileName($file);
+            $file ->storePubliclyAs('/upload', $randomFileName);
 
-        $this->setFields($company, $validated,'upload/'.$randomFileName );
+            $url = $company->logo;
+            Storage::delete($url);
+            $this->setFields($company, $validated,'upload/'.$randomFileName );
+        }
+
+
+        $this->setFields($company, $validated, $company->logo);
 
         $company->save();
         return redirect('home')->with('message', 'Record updated');
@@ -131,15 +137,29 @@ class HomeController extends Controller
         return $randomFileName. '.' .$extension;
     }
 
-    public function setFields(Company $company, $validated, $randomFilePath){
+    public function setFields(Company $company, $validated, $filePath){
 
         $company->Name = $validated['Name'];
         $company->email = $validated['email'];
         $company->website = $validated['website'];
-        $company->logo = $randomFilePath;
+        $company->logo = $filePath;
 
     }
 
+    public function validateForm(Request $request)
+    {
+        $customErrorMessages=[
+            'url'=>'The website address must have such form: https://domainname.extension '
+        ];
 
+        $validationRules=[
+            'Name' => 'required',
+            'email'=>'required|email',
+            'website'=>'required|url',
+            'logo'=>'required|image'
+        ];
+
+        return $this->validate($request, $validationRules, $customErrorMessages);
+    }
 
 }

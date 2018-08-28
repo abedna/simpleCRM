@@ -17,15 +17,21 @@
                                 <label for="Name">Company Name</label>
                                 <input type="text"
                                        class="form-control"
-                                       value="{{$company->Name}}"
+                                       @if(old('Name')) value="{{old('Name')}}"
+                                               @else value="{{$company->Name}}"
+                                        @endif
                                        name="Name">
+                                <small class="text-danger">{{ $errors->first('Name') }}</small>
                             </div>
                             <div class="form-group col-6">
                                 <label for="email">Email Adress</label>
                                 <input type="text"
                                        class="form-control"
-                                       value="{{$company->email}}"
+                                       @if(old('email')) value="{{old('email')}}"
+                                       @else value="{{$company->email}}"
+                                       @endif
                                        name="email">
+                                <small class="text-danger">{{ $errors->first('email') }}</small>
                             </div>
                             </div>
                             <div class="row">
@@ -33,14 +39,19 @@
                                 <label for="website">Website</label>
                                 <input type="text"
                                        class="form-control"
-                                       value="{{$company->website}}"
+                                       @if(old('website')) value="{{old('website')}}"
+                                       @else value="{{$company->website}}"
+                                       @endif
                                        name="website">
+                                <small class="text-danger">{{ $errors->first('website') }}</small>
                             </div>
                             <div class="form-group col-6">
                                 <label for="logo">Logo</label>
+                                <img src="{{ URL::asset($company->logo) }}" alt="img" width="40px">
                                 <input type="file"
                                        class="form-control-file"
                                        name="logo">
+                                <small class="text-danger">{{ $errors->first('logo') }}</small>
                             </div>
                             </div>
                             <div class="form-group float-right">
@@ -49,11 +60,6 @@
                             </div>
 
                         </form>
-                        @foreach($errors->all() as $error)
-                            <div class="alert-danger" role="alert">
-                                {{$error}}
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
