@@ -10,7 +10,7 @@
 
                     <div class="card-body">
 
-                        <form class="myform" method="post" action="update-company/{{$company->id}}" enctype="multipart/form-data">
+                        <form class="myform" method="post" action={{URL::to('companies/'.$company->id.'/update')}} enctype="multipart/form-data">
                             {{csrf_field()}}
                             <div class="row">
                             <div class="form-group col-6">
@@ -53,6 +53,27 @@
                                        name="logo">
                                 <small class="text-danger">{{ $errors->first('logo') }}</small>
                             </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="website">Description</label>
+
+                                <textarea name="description" id="description" rows="10" cols="80">
+                                        </textarea>
+                                <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+                                <script >
+                                    tinymce.init({ selector:'textarea#description' });
+
+                                    tinymce.getInstanceById('#description').on('init',function(e) {
+                                        e.target.setContent('my custom content');
+                                    });
+
+                                </script>
+                            <!--
+                                        <script type="text/javascript" rel="script" src="{{asset("vendor/unisharp/laravel-ckeditor/ckeditor.js")}}"></script>
+                                        <script>
+                                            CKEDITOR.replace( 'editor1' );
+                                        </script>-->
+                                <small class="text-danger">{{ $errors->first('description') }}</small>
                             </div>
                             <div class="form-group float-right">
                                 <a class="btn btn-secondary" href = {{route('home')}}>Cancel</a>

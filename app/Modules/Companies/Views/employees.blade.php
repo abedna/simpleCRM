@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header h5">Employees at <b>{{$company->Name}}</b>
+                    <div class="card-header h5">Employees at <b><a href="/companies/{{$company->id}}">{{$company->Name}}</a></b>
                         <div style="float:right"><a href="/home">Companies</a> </div>
                     </div>
                     <div class="card-body">
@@ -44,8 +44,8 @@
                                 <td >{{$employee->email}}</td>
                                 <td >{{$employee->phone}}</td>
                                 <td>
-                                    <a class="btn btn-outline-info" href="/company/{{$employee->company}}/employees/{{$employee->id}}/edit">Edit</a>
-                                    <a class="btn btn-outline-danger" href="/company/{{$employee->company}}/employees/{{$employee->id}}/delete">Delete</a>
+                                    <a class="btn btn-outline-info" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/edit">Edit</a>
+                                    <a class="btn btn-outline-danger" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/delete">Delete</a>
                                 </td>
                             </tr>
                             @endforeach

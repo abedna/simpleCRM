@@ -11,7 +11,7 @@
 
                     <div class="card-body">
 
-                        <form class="myform" method="post" action="/company/{{$employee->company}}/employees/{{$employee->id}}/update">
+                        <form class="myform" method="post" action="/companies/{{$employee->company}}/employees/{{$employee->id}}/update">
                             {{csrf_field()}}
                             <div class="row">
                             <div class="form-group col-6">

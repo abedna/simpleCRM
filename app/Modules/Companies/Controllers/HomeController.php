@@ -5,6 +5,7 @@ namespace App\Modules\Companies\Controllers;
 use Illuminate\Http\Request;
 use App\Company;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class HomeController extends Controller
 {
@@ -27,19 +28,15 @@ class HomeController extends Controller
     public function index()
 
     {
-
-
         $companies = Company::orderBy('id', 'desc')->paginate(5);
 
         return view('Companies::home', compact('companies'));
 
     }
 
-    public function testView(){
-        return view(companies::test);
-    }
 
     public function store(Request $request){
+
 
         $validated=$this->validateForm($request);
 
@@ -55,7 +52,7 @@ class HomeController extends Controller
 
         $company = new Company;
 
-        $this->setFields($company, $validated,'upload/'.$randomFileName );
+        $this->setFields($company, $validated,'upload/'.$randomFileName);
 
         $company->save();
 
@@ -108,7 +105,8 @@ class HomeController extends Controller
             'Name' => 'required',
             'email'=>'required|email',
             'website'=>'required|url',
-            'logo'=>'image'
+            'logo'=>'image',
+            'description'=>'required'
         ];
 
         $validated= $this->validate($request, $validationRules, $customErrorMessages);
@@ -120,14 +118,23 @@ class HomeController extends Controller
 
             $url = $company->logo;
             Storage::delete($url);
-            $this->setFields($company, $validated,'upload/'.$randomFileName );
+            $this->setFields($company, $validated,'upload/'.$randomFileName);
         }
 
 
-        $this->setFields($company, $validated, $company->logo);
+        $this->setFields($company, $validated, $company->logo, $request);
 
         $company->save();
         return redirect('home')->with('message', 'Record updated');
+    }
+
+
+    public function view($id)
+    {
+        $company=Company::find($id);
+        $nOfEmployees=$company->employees()->count();
+
+        return view('Companies::viewcompany', compact('company'));
     }
 
     public function getRandomFileName($file){
@@ -143,6 +150,7 @@ class HomeController extends Controller
         $company->email = $validated['email'];
         $company->website = $validated['website'];
         $company->logo = $filePath;
+        $company->description=$validated['description'];
 
     }
 
@@ -156,7 +164,8 @@ class HomeController extends Controller
             'Name' => 'required',
             'email'=>'required|email',
             'website'=>'required|url',
-            'logo'=>'required|image'
+            'logo'=>'required|image',
+            'description'=>'required'
         ];
 
         return $this->validate($request, $validationRules, $customErrorMessages);

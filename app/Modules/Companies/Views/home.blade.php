@@ -43,13 +43,13 @@
                         @foreach($companies as $company)
                                 <tr >
                                     <td ><img src="{{ URL::asset($company->logo) }}" alt="img" width="30px"></td>
-                                    <td>{{$company->Name}}</td>
+                                    <td><a href="/companies/{{$company->id}}"> {{$company->Name}}</a></td>
                                     <td>{{$company->email}}</td>
                                     <td>{{$company->website}}</td>
                                     <td>
-                                        <a class="btn btn-outline-info" href="/edit-company/{{$company->id}}">Edit</a>
-                                        <a class="btn btn-outline-danger" href="/delete-company/{{$company->id}}">Delete</a>
-                                        <a class="btn btn-outline-dark" href="/company/{{$company->id}}/employees">View Employees</a>
+                                        <a class="btn btn-outline-info" href="/companies/{{$company->id}}/edit">Edit</a>
+                                        <a class="btn btn-outline-danger" href="/companies/{{$company->id}}/delete" data-method="delete">Delete</a>
+                                        <a class="btn btn-outline-dark" href="/companies/{{$company->id}}/employees">View Employees</a>
                                     </td>
                                 </tr>
 
@@ -63,7 +63,7 @@
                         </div>
                         <p class="h5">Add new company</p>
                         <div >
-                            <form class="myform" method="post" action="post-company" enctype="multipart/form-data">
+                            <form class="myform" method="post" action="companies/post" enctype="multipart/form-data">
                                 {{csrf_field()}}
 
                                 <div class="row">
@@ -103,6 +103,19 @@
                                            name="logo">
                                     <small class="text-danger">{{ $errors->first('logo') }}</small>
                                 </div>
+                                    <div class="form-group col-12">
+                                        <label for="website">Description</label>
+                                        <textarea name="description" rows="10" cols="80">
+                                        </textarea>
+                                        <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+                                        <script>tinymce.init({ selector:'textarea' });</script>
+                                        <!--
+                                        <script type="text/javascript" rel="script" src="{{asset("vendor/unisharp/laravel-ckeditor/ckeditor.js")}}"></script>
+                                        <script>
+                                            CKEDITOR.replace( 'editor1' );
+                                        </script>-->
+                                        <small class="text-danger">{{ $errors->first('description') }}</small>
+                                    </div>
                                 </div>
                                 <div class="form-group float-right">
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -116,3 +129,7 @@
     </div>
 </div>
 @endsection
+
+
+
+

@@ -11,26 +11,28 @@ Route::group([
 
         Auth::routes();
 
-        Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('home', 'HomeController@index')->name('home');
 
-        Route::post('post-company', 'HomeController@store');
+        Route::post('companies/post', 'HomeController@store');
 
-        Route::get('delete-company/{id}', [
-        'as' => 'id', 'uses' => 'HomeController@destroy'
-        ]);
-        Route::get('edit-company/{company}', 'HomeController@edit');
+        Route::get('companies/{company}', 'HomeController@view');
 
-        Route::post('edit-company/update-company/{company}', 'HomeController@update')->name('update');
+        Route::get('companies/{company}/delete', 'HomeController@destroy');
 
-        Route::get('company/{company}/employees', 'EmployeesController@show')->name('listemployees');
+        Route::get('companies/{company}/edit', 'HomeController@edit');
 
-        Route::post('company/{company}/employees', 'EmployeesController@store');
+        Route::post('companies/{company}/update', 'HomeController@update')->name('update');
 
-        Route::get('company/{company}/employees/{employee}/delete', 'EmployeesController@delete');
+        Route::get('companies/{company}/employees', 'EmployeesController@show')->name('listemployees');
 
-        Route::get('company/{company}/employees/{employee}/edit', 'EmployeesController@edit');
+        Route::post('companies/{company}/employees', 'EmployeesController@store');
 
-        Route::post('/company/{company}/employees/{employee}/update', 'EmployeesController@update');
+        Route::get('companies/{company}/employees/{employee}/delete', 'EmployeesController@delete');
+
+        Route::get('companies/{company}/employees/{employee}/edit', 'EmployeesController@edit');
+
+        Route::post('companies/{company}/employees/{employee}/update', 'EmployeesController@update');
+
 
 
 });
