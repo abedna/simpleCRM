@@ -106,6 +106,7 @@
                                     <div class="form-group col-12">
                                         <label for="website">Description</label>
                                         <textarea name="description" rows="10" cols="80">
+
                                         </textarea>
                                         <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
                                         <script>tinymce.init({ selector:'textarea' });</script>

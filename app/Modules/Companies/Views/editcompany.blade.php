@@ -58,7 +58,10 @@
                                 <label for="website">Description</label>
 
                                 <textarea name="description" id="description" rows="10" cols="80">
-                                        </textarea>
+                                    @if(old('description')) {{old('description')}}
+                                    @else {{$company->description}}
+                                    @endif
+                                </textarea>
                                 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
                                 <script >
                                     tinymce.init({ selector:'textarea#description' });
