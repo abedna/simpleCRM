@@ -42,7 +42,7 @@
                                 @else
                         @foreach($companies as $company)
                                 <tr >
-                                    <td ><img src="{{ URL::asset($company->logo) }}" alt="img" width="30px"></td>
+                                    <td ><img src="{{ URL::asset(str_replace('public/', '',($company->logo)))}}" alt="img" width="30px"></td>
                                     <td><a href="/companies/{{$company->id}}"> {{$company->Name}}</a></td>
                                     <td>{{$company->email}}</td>
                                     <td>{{$company->website}}</td>

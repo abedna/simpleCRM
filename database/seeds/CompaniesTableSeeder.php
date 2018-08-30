@@ -16,7 +16,6 @@ class CompaniesTableSeeder extends Seeder
         $faker=Faker::create('App\Company');
 
         for($i=0; $i<5; $i++){
-
             DB::table('companies')->Insert(
                 [
                     'Name' => $faker->company(),
@@ -27,6 +26,5 @@ class CompaniesTableSeeder extends Seeder
                 ]
             );
         }
-
     }
 }
