@@ -15,14 +15,14 @@ class CompaniesTableSeeder extends Seeder
 
         $faker=Faker::create('App\Company');
 
-        for($i=0; $i<5; $i++){
+        for($i=0; $i<10; $i++){
             DB::table('companies')->Insert(
                 [
                     'Name' => $faker->company(),
                     'email' => $faker->companyEmail(),
                     'website' => $faker->domainName(),
-                    'logo' => $faker->image('public/upload'),
-                    'description'=>$faker->randomHtml()
+                    'logo' => $faker->image('public/upload',400,400),
+                    'description'=>$faker->text()
                 ]
             );
         }

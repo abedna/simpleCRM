@@ -21,8 +21,7 @@ class EmployeesTableSeeder extends Seeder
         }
 
 
-
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             DB::table('employees')->Insert(
                 [
                     'firstName' => $faker->firstName(),

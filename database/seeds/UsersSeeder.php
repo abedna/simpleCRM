@@ -13,7 +13,7 @@ class UsersSeeder extends Seeder
     public function run()
     {
 
-        if(count(DB::table('employees')->get())==0) {
+        if(count(DB::table('users')->get())==0) {
                 DB::table('users')->Insert(
                     [
                         'name'=>'admin',

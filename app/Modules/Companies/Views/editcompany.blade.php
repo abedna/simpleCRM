@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group col-6">
                                 <label for="logo">Logo</label>
-                                <img src="{{ URL::asset($company->logo) }}" alt="img" width="40px">
+                                <img src="{{ URL::asset(str_replace('public/', '',($company->logo)))}}" alt="img" width="40px">
                                 <input type="file"
                                        class="form-control-file"
                                        name="logo">

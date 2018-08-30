@@ -110,11 +110,6 @@
                                         </textarea>
                                         <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
                                         <script>tinymce.init({ selector:'textarea' });</script>
-                                        <!--
-                                        <script type="text/javascript" rel="script" src="{{asset("vendor/unisharp/laravel-ckeditor/ckeditor.js")}}"></script>
-                                        <script>
-                                            CKEDITOR.replace( 'editor1' );
-                                        </script>-->
                                         <small class="text-danger">{{ $errors->first('description') }}</small>
                                     </div>
                                 </div>

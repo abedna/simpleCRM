@@ -58,11 +58,6 @@
                             @endif
                         </table>
                         <p class="h5">Add new employee</p>
-                        @foreach($errors->all() as $error)
-                            <div class="alert-danger" role="alert">
-                                {{$error}}
-                            </div>
-                        @endforeach
                         <form class="myform" method="post" action="employees">
                             {{csrf_field()}}
 
@@ -72,7 +67,10 @@
                                 <input type="text"
                                        class="form-control"
                                        name="firstName"
+                                       @if(old('firstName')) value="{{old('firstName')}}"
+                                       @endif
                                        placeholder="First Name">
+                                <small class="text-danger">{{ $errors->first('firstName') }}</small>
                             </div>
 
                             <div class="form-group col-6">
@@ -80,7 +78,10 @@
                                 <input type="text"
                                        class="form-control"
                                        name="lastName"
+                                       @if(old('lastName')) value="{{old('lastName')}}"
+                                       @endif
                                        placeholder="Last Name">
+                                <small class="text-danger">{{ $errors->first('lastName') }}</small>
                             </div>
                             </div>
                             <div class="row">
@@ -89,31 +90,53 @@
                                 <input type="text"
                                        class="form-control"
                                        name="email"
-                                       placeholder="Email">
+                                       @if(old('email')) value="{{old('email')}}"
+                                       @endif
+                                       placeholder="email@example.com">
+                                <small class="text-danger">{{ $errors->first('email') }}</small>
                             </div>
                             <div class="form-group col-6">
                                 <label for="phone">Phone Number</label>
                                 <input type="text"
                                        class="form-control"
                                        name="phone"
-                                       placeholder="Phone">
+                                       @if(old('phone')) value="{{old('phone')}}"
+                                       @endif
+                                       placeholder="123456789">
+                                <small class="text-danger">{{ $errors->first('phone') }}</small>
                             </div>
                             </div>
                             <div class="row">
-                            <div class="form-group col-6">
-                                <label for="department">Department</label>
-                                <input type="text"
-                                       class="form-control"
-                                       name="department"
-                                       placeholder="Department">
-                            </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-3">
                                 <label for="salary">Salary</label>
                                 <input type="text"
                                        class="form-control"
                                        name="salary"
-                                       placeholder="Salary">
+                                       @if(old('salary')) value="{{old('salary')}}"
+                                       @endif
+                                       placeholder="1234">
+                                <small class="text-danger">{{ $errors->first('salary') }}</small>
                             </div>
+                                <div class="form-group col-3">
+                                    <label for="salary">Birth Date</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="birthDate"
+                                           @if(old('birthDate')) value="{{old('birthDate')}}"
+                                           @endif
+                                           placeholder="yyyy-mm-dd">
+                                    <small class="text-danger">{{ $errors->first('birthDate') }}</small>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="department">Department</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="department"
+                                           @if(old('department')) value="{{old('department')}}"
+                                           @endif
+                                           placeholder="Department">
+                                    <small class="text-danger">{{ $errors->first('department') }}</small>
+                                </div>
                             </div>
                             @if($employees->isEmpty())
                             <input type="hidden" name="company" value="'id'">

@@ -9,9 +9,14 @@
                     <div class="card-header">{{$company->Name}} Profile Page</div>
 
                     <div class="card-body">
-                        <img src="{{ URL::asset($company->logo) }}" alt="img" width="100px">
-                        <div>{!! $company->description !!}</div>
-                        <p> Company size: {{ $company->employees()->count() }} employees</p>
+                        <div class="row">
+                        <div class="col-2">
+                            <img src="{{ URL::asset(str_replace('public/', '',($company->logo)))}}" alt="img" width="100%">
+                        </div>
+                            <div class="col-8">{!! $company->description !!}</div>
+                        </div>
+                            <div style="padding-top: 10px; padding-bottom: 10px"> Company size: {{ $company->employees()->count() }} employees</div>
+                        <a class="btn btn-outline-dark" href="/companies/{{$company->id}}/employees">View Employees</a>
                     </div >
 
                 </div>

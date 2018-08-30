@@ -5,6 +5,7 @@ namespace App\Modules\Companies\Controllers;
 use App\Company;
 use App\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 
 class EmployeesController extends Controller
@@ -26,15 +27,20 @@ class EmployeesController extends Controller
 
     public function store(Request $request, Company $company){
 
-        $validated=$this->validate($request,[
+
+
+        $rules = [
             'firstName'=>'required',
             'lastName'=>'required',
             'email'=>'required|email',
             'phone'=>'required|integer',
             'department'=>'required',
-            'salary'=>'required'
+            'birthDate'=>'required|date_format:Y-m-d',
+            'salary'=>'required|integer'
 
-        ]);
+        ];
+
+        $validated=$this->validate($request, $rules);
 
         $employee= new Employee();
         $employee->firstName=$validated['firstName'];
@@ -43,6 +49,7 @@ class EmployeesController extends Controller
         $employee->phone=$validated['phone'];
         $employee->department=$validated['department'];
         $employee->salary=$validated['salary'];
+        $employee->birthDate=$validated['birthDate'];
         $company->employees()->save($employee);
         return back()->with('message','Record added');;
 
@@ -54,7 +61,6 @@ class EmployeesController extends Controller
     }
 
     public function update($company, Employee $employee, Request $request){
-        //$employee=Employee::find($employee);
         
         $validated=$this->validate($request,[
             'firstName'=>'required',
