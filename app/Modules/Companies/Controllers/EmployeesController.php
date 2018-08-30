@@ -33,7 +33,7 @@ class EmployeesController extends Controller
             'firstName'=>'required',
             'lastName'=>'required',
             'email'=>'required|email',
-            'phone'=>'required|integer',
+            'phone'=>'required',
             'department'=>'required',
             'birthDate'=>'required|date_format:Y-m-d',
             'salary'=>'required|integer'
@@ -66,7 +66,10 @@ class EmployeesController extends Controller
             'firstName'=>'required',
             'lastName'=>'required',
             'email'=>'required|email',
-            'phone'=>'required|integer'
+            'phone'=>'required',
+            'department'=>'required',
+            'birthDate'=>'required|date_format:Y-m-d',
+            'salary'=>'required|integer'
         ]);
 
         $employee->firstName=$validated['firstName'];
