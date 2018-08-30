@@ -103,13 +103,6 @@
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
-
-                        @foreach($errors->all() as $error)
-                            <div class="alert-danger" role="alert">
-                                {{$error}}
-                            </div>
-                        @endforeach
-
                     </div>
                 </div>
             </div>

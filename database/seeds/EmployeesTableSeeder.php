@@ -20,15 +20,14 @@ class EmployeesTableSeeder extends Seeder
             $arr[] = $value->getAttribute('id');
         }
 
-
         for ($i = 0; $i < 100; $i++) {
             DB::table('employees')->Insert(
                 [
                     'firstName' => $faker->firstName(),
                     'lastName' => $faker->lastName(),
                     'email' => $faker->email(),
-                    'phone' => $faker->phoneNumber(),
-                    'department' => $faker->word(),
+                    'phone' => $faker->numberBetween(100000000, 999999999),
+                    'department' => $faker->randomElement(['biuro', 'zarząd', 'teren']),
                     'birthDate' => $faker->date(),
                     'salary' => $faker->numberBetween(2000, 10000),
                     'company' => $faker->randomElement($arr)
