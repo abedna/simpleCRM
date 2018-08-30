@@ -31,6 +31,9 @@
                                 <td>Last Name</td>
                                 <td>Email</td>
                                 <td>Phone</td>
+                                <td>Department</td>
+                                <td>Birth Date</td>
+                                <td>Salary</td>
                                 <td>Action</td>
                             </tr>
                         @if($employees->isEmpty())
@@ -38,11 +41,14 @@
                             @else
                             @foreach($employees as $employee)
                             <tr >
-                                <td >{{$employee->id}}</td>
-                                <td >{{$employee->firstName}}</td>
-                                <td >{{$employee->lastName}}</td>
-                                <td >{{$employee->email}}</td>
-                                <td >{{$employee->phone}}</td>
+                                <td>{{$employee->id}}</td>
+                                <td>{{$employee->firstName}}</td>
+                                <td>{{$employee->lastName}}</td>
+                                <td>{{$employee->email}}</td>
+                                <td>{{$employee->phone}}</td>
+                                <td>{{$employee->department}}</td>
+                                <td>{{$employee->birthDate}}</td>
+                                <td>{{$employee->salary}}</td>
                                 <td>
                                     <a class="btn btn-outline-info" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/edit">Edit</a>
                                     <a class="btn btn-outline-danger" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/delete">Delete</a>
@@ -93,8 +99,22 @@
                                        placeholder="Phone">
                             </div>
                             </div>
-
-
+                            <div class="row">
+                            <div class="form-group col-6">
+                                <label for="department">Department</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="department"
+                                       placeholder="Department">
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="salary">Salary</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="salary"
+                                       placeholder="Salary">
+                            </div>
+                            </div>
                             @if($employees->isEmpty())
                             <input type="hidden" name="company" value="'id'">
                             @else

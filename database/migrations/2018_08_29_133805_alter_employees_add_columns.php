@@ -14,7 +14,7 @@ class AlterEmployeesAddColumns extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table){
-            $table->timestamp('birthDate')->nullable();
+            $table->date('birthDate')->nullable();
             $table->string('department');
             $table->integer('salary');
         });

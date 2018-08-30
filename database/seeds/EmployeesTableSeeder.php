@@ -27,6 +27,9 @@ class EmployeesTableSeeder extends Seeder
                     'lastName' => $faker->lastName(),
                     'email' => $faker->email(),
                     'phone' => $faker->phoneNumber(),
+                    'department'=> $faker->word(),
+                    'birthDate'=>$faker->date(),
+                    'salary'=>$faker->numberBetween(2000,10000),
                     'company' => $faker->randomElement($arr)
                 ]
             );

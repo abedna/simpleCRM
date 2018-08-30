@@ -30,7 +30,10 @@ class EmployeesController extends Controller
             'firstName'=>'required',
             'lastName'=>'required',
             'email'=>'required|email',
-            'phone'=>'required|integer'
+            'phone'=>'required|integer',
+            'department'=>'required',
+            'salary'=>'required'
+
         ]);
 
         $employee= new Employee();
@@ -38,6 +41,8 @@ class EmployeesController extends Controller
         $employee->lastName=$validated['lastName'];
         $employee->email=$validated['email'];
         $employee->phone=$validated['phone'];
+        $employee->department=$validated['department'];
+        $employee->salary=$validated['salary'];
         $company->employees()->save($employee);
         return back()->with('message','Record added');;
 

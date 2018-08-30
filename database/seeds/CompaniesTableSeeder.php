@@ -22,7 +22,8 @@ class CompaniesTableSeeder extends Seeder
                     'Name' => $faker->company(),
                     'email' => $faker->companyEmail(),
                     'website' => $faker->domainName(),
-                    'logo' => $faker->image('public/upload')
+                    'logo' => $faker->image('public/upload'),
+                    'description'=>$faker->randomHtml()
                 ]
             );
         }
