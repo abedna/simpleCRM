@@ -36,5 +36,4 @@ class EmployeesTableSeeder extends Seeder
         }
       }
 
-
 }

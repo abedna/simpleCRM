@@ -60,7 +60,6 @@
                         <p class="h5">Add new employee</p>
                         <form class="myform" method="post" action="employees">
                             {{csrf_field()}}
-
                             <div class="row">
                             <div class="form-group col-6">
                                 <label for="firstName">First Name</label>
@@ -72,7 +71,6 @@
                                        placeholder="First Name">
                                 <small class="text-danger">{{ $errors->first('firstName') }}</small>
                             </div>
-
                             <div class="form-group col-6">
                                 <label for="lastName">Last Name</label>
                                 <input type="text"
@@ -138,18 +136,12 @@
                                     <small class="text-danger">{{ $errors->first('department') }}</small>
                                 </div>
                             </div>
-                            @if($employees->isEmpty())
-                            <input type="hidden" name="company" value="'id'">
-                            @else
-                            <input type="hidden" name="company" value="{{$employee->id}}">
-                            @endif
 
                             <div class="form-group float-right">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
-
                         </form>
-                    </div>
+                        </div>
                         </div>
                     </div>
                 </div>

@@ -11,11 +11,11 @@ class CompaniesTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(){
-
+    public function run()
+    {
         $faker=Faker::create('App\Company');
 
-        for($i=0; $i<10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             DB::table('companies')->Insert(
                 [
                     'Name' => $faker->company(),

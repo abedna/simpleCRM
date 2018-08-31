@@ -7,7 +7,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">{{$company->Name}} Profile Page</div>
-
                     <div class="card-body">
                         <div class="row">
                         <div class="col-2">
@@ -15,10 +14,9 @@
                         </div>
                             <div class="col-8">{!! $company->description !!}</div>
                         </div>
-                            <div style="padding-top: 10px; padding-bottom: 10px"> Company size: {{ $company->employees()->count() }} employees</div>
+                            <div style="padding-top: 10px; padding-bottom: 10px"> Company size: {{ $numberOfEmployees }} employees</div>
                         <a class="btn btn-outline-dark" href="/companies/{{$company->id}}/employees">View Employees</a>
-                    </div >
-
+                    </div>
                 </div>
             </div>
         </div>

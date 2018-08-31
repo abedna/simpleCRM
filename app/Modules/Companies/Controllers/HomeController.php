@@ -17,7 +17,6 @@ class HomeController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
-
     }
 
     /**
@@ -26,18 +25,14 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-
     {
         $companies = Company::orderBy('id', 'desc')->paginate(5);
 
         return view('Companies::home', compact('companies'));
-
     }
 
-
-    public function store(Request $request){
-
-
+    public function store(Request $request)
+    {
         $validated=$this->validateForm($request);
 
         //TODO wyodrębnij plik z requesta
@@ -57,18 +52,17 @@ class HomeController extends Controller
         $company->save();
 
         return redirect('home')->with('message', 'New record added');
-
     }
 
-    public function destroy($id){
-
+    public function destroy($id)
+    {
         $company = Company::find($id);
 
-        if($company->employees->first()){
+        if ($company->employees->first()) {
 
             return redirect('home')->with('message-removed', 'Can\'t remove company with existing employees') ;
 
-        }else{
+        } else {
 
         //TODO znajdż url logo
         $url = $company->logo;
@@ -77,31 +71,30 @@ class HomeController extends Controller
         Storage::delete($url);
 
         //TODO usuń plik z BD
-        if($company){
+        if ($company) {
         $company->forceDelete();
         }
 
-        return redirect('home')->with('message-removed', 'Record removed') ;
+        return redirect('home')->with('message-removed', 'Record removed');
         };
-
     }
 
-    public function edit($id){
-
+    public function edit($id)
+    {
         //TODO znajdź firmę o id z przekazanego parametru
-        $company=Company::find($id);
+        $company = Company::find($id);
 
         //TODO przekaż obiekt company do formularza
         return view('Companies::editcompany', compact('company'));
     }
 
-    public function update(Request $request, Company $company){
-
-        $customErrorMessages=[
+    public function update(Request $request, Company $company)
+    {
+        $customErrorMessages = [
             'url'=>'The website address must have such form: https://domainname.extension '
         ];
 
-        $validationRules=[
+        $validationRules = [
             'Name' => 'required',
             'email'=>'required|email',
             'website'=>'required|url',
@@ -109,11 +102,11 @@ class HomeController extends Controller
             'description'=>'required'
         ];
 
-        $validated= $this->validate($request, $validationRules, $customErrorMessages);
+        $validated = $this->validate($request, $validationRules, $customErrorMessages);
 
-        if($request->file(('logo'))){
+        if ($request->file(('logo'))) {
             $file = $request->file('logo');
-            $randomFileName=$this->getRandomFileName($file);
+            $randomFileName = $this->getRandomFileName($file);
             $file ->storePubliclyAs('/upload', $randomFileName);
 
             $url = $company->logo;
@@ -121,37 +114,35 @@ class HomeController extends Controller
             $this->setFields($company, $validated,'upload/'.$randomFileName);
         }
 
-
         $this->setFields($company, $validated, $company->logo, $request);
-
         $company->save();
+
         return redirect('home')->with('message', 'Record updated');
     }
 
-
     public function view($id)
     {
-        $company=Company::find($id);
-        $nOfEmployees=$company->employees()->count();
+        $company = Company::find($id);
+        $numberOfEmployees = $company->employees()->count();
 
-        return view('Companies::viewcompany', compact('company'));
+        return view('Companies::viewcompany', compact('company', 'numberOfEmployees'));
     }
 
-    public function getRandomFileName($file){
-
+    public function getRandomFileName($file)
+    {
         $extension = $file->getClientOriginalExtension();
         $randomFileName = rand();
+
         return $randomFileName. '.' .$extension;
     }
 
-    public function setFields(Company $company, $validated, $filePath){
-
+    public function setFields(Company $company, $validated, $filePath)
+    {
         $company->Name = $validated['Name'];
         $company->email = $validated['email'];
         $company->website = $validated['website'];
         $company->logo = $filePath;
         $company->description=$validated['description'];
-
     }
 
     public function validateForm(Request $request)
@@ -170,5 +161,4 @@ class HomeController extends Controller
 
         return $this->validate($request, $validationRules, $customErrorMessages);
     }
-
 }
