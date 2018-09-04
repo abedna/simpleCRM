@@ -152,6 +152,8 @@ return [
          * Package Service Providers...
          */
 
+        Zizaco\Entrust\EntrustServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
@@ -161,7 +163,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ModulesServiceProvider::class,
-        //App\Modules\ModulesServiceProvider::class,
+
 
     ],
 

@@ -34,20 +34,38 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <!-- <ul class="navbar-nav mr-auto">
+
+                     <ul class="navbar-nav mr-auto">
+                         @guest
+                             @else
                             <li class="nav-item">
-                                <a class="nav-link" href="/home">Companies</a>
+                         <li class="nav-item dropdown">
+                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+
+                                 Language {{strtoupper(session()->get('locale'))}} <span class="caret"></span>
+                             </a>
+
+                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                 <a class="dropdown-item" href='/switchLanguage/pl'>
+                                     PL
+                                 </a>
+                                 <a class="dropdown-item" href='/switchLanguage/en'>
+                                     EN
+                                 </a>
+                             </div>
+                         </li>
                             </li>
-                    </ul> -->
+                             @endguest
+                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+
                         @guest
                             <li class="nav-item">
                                 <!--<a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>-->
                             </li>
                             <li class="nav-item">
-
                             </li>
                         @else
                             <li class="nav-item dropdown">

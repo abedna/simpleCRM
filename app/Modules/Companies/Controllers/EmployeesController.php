@@ -87,4 +87,7 @@ class EmployeesController extends Controller
         return redirect()->route('listemployees', ['company' => $company])->with('deleted', 'Record deleted');
     }
 
+
+
+
 }

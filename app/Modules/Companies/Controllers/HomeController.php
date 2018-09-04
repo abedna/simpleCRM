@@ -4,6 +4,9 @@ namespace App\Modules\Companies\Controllers;
 
 use Illuminate\Http\Request;
 use App\Company;
+use App\Employee;
+use App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
@@ -17,6 +20,7 @@ class HomeController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
+        App::setLocale('pl');
     }
 
     /**
@@ -27,13 +31,13 @@ class HomeController extends Controller
     public function index()
     {
         $companies = Company::orderBy('id', 'desc')->paginate(5);
-
-        return view('Companies::home', compact('companies'));
+        $wages= $this->getHighestWages();
+        return view('Companies::home', compact('companies','wages'));
     }
 
     public function store(Request $request)
     {
-        $validated=$this->validateForm($request);
+        $validated = $this->validateForm($request);
 
         //TODO wyodrębnij plik z requesta
 
@@ -126,6 +130,21 @@ class HomeController extends Controller
         $numberOfEmployees = $company->employees()->count();
 
         return view('Companies::viewcompany', compact('company', 'numberOfEmployees'));
+    }
+
+    public function getHighestWages()
+    {
+        $companies = Company::all();
+
+        foreach ($companies as $company) {
+
+            $wages[$company->getAttribute('Name')] = Employee::with('companies')
+                                                        ->where('company',$company->getAttribute('id'))
+                                                        ->orderByDesc('salary')
+                                                        ->first();
+        }
+
+        return $wages;
     }
 
     public function getRandomFileName($file)

@@ -9,6 +9,8 @@ Route::group([
 
         Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 
+        Route::get('switchLanguage/{lang}', 'LanguageController@switchLanguage');
+
         Auth::routes();
 
         Route::get('home', 'HomeController@index')->name('home');
@@ -33,6 +35,6 @@ Route::group([
 
         Route::post('companies/{company}/employees/{employee}/update', 'EmployeesController@update');
 
-
+        Route::get('bestwage', 'EmployeesController@findHighestWages');
 
 });
