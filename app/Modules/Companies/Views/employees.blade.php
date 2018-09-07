@@ -34,7 +34,9 @@
                                 <td>Department</td>
                                 <td>Birth Date</td>
                                 <td>Salary</td>
+                                @role('admin')
                                 <td>Action</td>
+                                @endrole
                             </tr>
                         @if($employees->isEmpty())
                             <div>No employees yet</div>
@@ -49,14 +51,17 @@
                                 <td>{{$employee->department}}</td>
                                 <td>{{$employee->birthDate}}</td>
                                 <td>{{$employee->salary}}</td>
+                                @role('admin')
                                 <td>
                                     <a class="btn btn-outline-info" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/edit">Edit</a>
                                     <a class="btn btn-outline-danger" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/delete">Delete</a>
                                 </td>
+                                @endrole
                             </tr>
                             @endforeach
                             @endif
                         </table>
+                            @role('admin')
                         <p class="h5">Add new employee</p>
                         <form class="myform" method="post" action="employees">
                             {{csrf_field()}}
@@ -141,6 +146,7 @@
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
+                        @endrole
                         </div>
                         </div>
                     </div>

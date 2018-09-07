@@ -2,8 +2,11 @@
 
 namespace App\Modules\Companies\Controllers;
 
-use App\Company;
-use App\Employee;
+use Zizaco\Entrust\EntrustFacade as Entrust;
+//use App\Company;
+//use App\Employee;
+use App\Modules\Companies\Models\Company;
+use App\Modules\Companies\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -12,16 +15,16 @@ class EmployeesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(['role:admin'], ['except'=>'show']);
     }
 
     //passes id parameter
     public function show($id)
     {
-        //$employees = Company::find($id)->employees
         $company = Company::find($id);
         $employees = Employee::with('companies')->where('company', $id)->get();
 
-        return view('Companies::employees',  compact('employees', 'id', 'company'));
+        return view('Companies::employees',  compact('employees', 'company'));
     }
 
     public function store(Request $request, Company $company)
@@ -51,8 +54,9 @@ class EmployeesController extends Controller
         return back()->with('message','Record added');;
     }
 
-    public function edit($company, $employee)
+    public function edit($company,$employee)
     {
+
         $employee = Employee::find($employee);
 
         return view('Companies::editemployee', compact('employee'));
@@ -80,7 +84,11 @@ class EmployeesController extends Controller
     }
 
     public function delete($company, $employee)
+
     {
+        //if (!Entrust::hasRole('admin')){
+          //  abort('403','You are not allowed to send this request');
+        //}
         $employee = Employee::find($employee);
         $employee->forceDelete();
 

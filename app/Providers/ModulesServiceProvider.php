@@ -32,11 +32,12 @@ class ModulesServiceProvider extends ServiceProvider {
                 $this->loadViewsFrom(base_path().'/app/Modules/'.$module.'/Views',$module);
             }
 
-            if (is_dir(base_path().'/app/Modules/'.$module.'/Views/auth')) {
+/*
+            if (is_dir(base_path().'/app/Modules/'.$module.'/Models')) {
 
-                $this->loadViewsFrom(base_path().'/app/Modules/'.$module.'/Views/auth',$module);
+                include base_path().'/app/Modules/'.$module.'/Models';
             }
-
+*/
         }
 
     }

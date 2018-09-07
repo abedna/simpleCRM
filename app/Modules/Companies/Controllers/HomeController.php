@@ -3,10 +3,14 @@
 namespace App\Modules\Companies\Controllers;
 
 use Illuminate\Http\Request;
-use App\Company;
-use App\Employee;
+use Zizaco\Entrust\EntrustFacade as Entrust;
+//use App\Company;
+//use App\Employee;
 use App;
+use App\Modules\Companies\Models\Company;
+use App\Modules\Companies\Models\Employee;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
@@ -20,7 +24,8 @@ class HomeController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
-        App::setLocale('pl');
+       $this->middleware(['role:admin'], ['except'=>['index', 'view']]);
+      // dd($this->getMiddleware());
     }
 
     /**
@@ -30,6 +35,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+       // $company = Company::findOrFail(1);
         $companies = Company::orderBy('id', 'desc')->paginate(5);
         $wages= $this->getHighestWages();
         return view('Companies::home', compact('companies','wages'));
@@ -60,13 +66,16 @@ class HomeController extends Controller
 
     public function destroy($id)
     {
+        //if (!Entrust::hasRole('admin')){
+           // abort('403','You are not allowed to send this request');
+            //return redirect('home');
+       // }
         $company = Company::find($id);
 
         if ($company->employees->first()) {
 
             return redirect('home')->with('message-removed', 'Can\'t remove company with existing employees') ;
-
-        } else {
+        }
 
         //TODO znajdż url logo
         $url = $company->logo;
@@ -80,16 +89,21 @@ class HomeController extends Controller
         }
 
         return redirect('home')->with('message-removed', 'Record removed');
-        };
     }
 
     public function edit($id)
     {
+        //if (!Entrust::hasRole('admin')) {
+
+            //return redirect('home');
+       // }
         //TODO znajdź firmę o id z przekazanego parametru
         $company = Company::find($id);
 
         //TODO przekaż obiekt company do formularza
         return view('Companies::editcompany', compact('company'));
+
+
     }
 
     public function update(Request $request, Company $company)
@@ -126,7 +140,7 @@ class HomeController extends Controller
 
     public function view($id)
     {
-        $company = Company::find($id);
+        $company = Company::findOrFail($id);
         $numberOfEmployees = $company->employees()->count();
 
         return view('Companies::viewcompany', compact('company', 'numberOfEmployees'));
@@ -139,9 +153,19 @@ class HomeController extends Controller
         foreach ($companies as $company) {
 
             $wages[$company->getAttribute('Name')] = Employee::with('companies')
-                                                        ->where('company',$company->getAttribute('id'))
+                                                        ->where('company', $company->getAttribute('id'))
                                                         ->orderByDesc('salary')
                                                         ->first();
+           /**
+            $wages[$company->getAttribute('id')] = [
+                                                        Employee::with('companies')
+                                                        ->where('company',$company->getAttribute('id'))
+                                                        ->orderByDesc('salary')
+                                                        ->first(),
+                                                        $company->getAttribute('Name')
+                                                        ];
+            **/
+
         }
 
         return $wages;

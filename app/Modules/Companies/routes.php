@@ -1,16 +1,17 @@
 <?php
 
-
 Route::group([
 
     'middleware' => 'web',
     'namespace' => 'App\Modules\Companies\Controllers'],
     function(){
 
-        Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
-
         Route::get('switchLanguage/{lang}', 'LanguageController@switchLanguage');
 
+        //Musi być przed Auth::routes();!!
+        //1.
+        Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
+        //2.
         Auth::routes();
 
         Route::get('home', 'HomeController@index')->name('home');
@@ -21,7 +22,10 @@ Route::group([
 
         Route::get('companies/{company}/delete', 'HomeController@destroy');
 
-        Route::get('companies/{company}/edit', 'HomeController@edit');
+        Route::get('companies/{company}/edit', [
+            'uses' => 'HomeController@edit',
+           // 'middleware' => ['role:admin'],
+        ]);
 
         Route::post('companies/{company}/update', 'HomeController@update')->name('update');
 
@@ -34,7 +38,5 @@ Route::group([
         Route::get('companies/{company}/employees/{employee}/edit', 'EmployeesController@edit');
 
         Route::post('companies/{company}/employees/{employee}/update', 'EmployeesController@update');
-
-        Route::get('bestwage', 'EmployeesController@findHighestWages');
 
 });

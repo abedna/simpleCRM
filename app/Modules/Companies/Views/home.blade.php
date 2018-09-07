@@ -47,8 +47,10 @@
                                     <td>{{$company->email}}</td>
                                     <td>{{$company->website}}</td>
                                     <td>
+                                        @role('admin')
                                         <a class="btn btn-outline-info" href="/companies/{{$company->id}}/edit">{{__('translations.Edit')}}</a>
                                         <a class="btn btn-outline-danger" href="/companies/{{$company->id}}/delete" data-method="delete">{{__('translations.Delete')}}</a>
+                                        @endrole
                                         <a class="btn btn-outline-dark" href="/companies/{{$company->id}}/employees">{{__('translations.View Employees')}}</a>
                                     </td>
                                 </tr>
@@ -85,6 +87,7 @@
                             </table>
                         </div>
                         </div>
+                        @role('admin')
                         <p class="h5">{{__('translations.Add new company')}}</p>
                         <div >
                             <form class="myform" method="post" action="companies/post" enctype="multipart/form-data">
@@ -142,6 +145,7 @@
                                 </div>
                             </form>
                         </div>
+                    @endrole
                 </div>
             </div>
         </div>

@@ -3,7 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use PHPUnit\Framework\MockObject\RuntimeException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +51,25 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof FatalErrorException) {
+            $exception = new HttpException(500, "Server error");
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            $exception = new HttpException(500, "Model not found");
+        }
+
+        if ($exception instanceof RelationNotFoundException) {
+            $exception = new HttpException(500, "Relation not found");
+        }
+
+
+        if ($exception->getStatusCode()==403)  {
+            $exception = new HttpException(403, "Not allowed");
+            //dd($exception->getMessage());
+                //return response()->view('errors.403');
+        }
+
         return parent::render($request, $exception);
     }
 }
