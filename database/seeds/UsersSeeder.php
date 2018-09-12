@@ -24,6 +24,17 @@ class UsersSeeder extends Seeder
                     ]
                 );
             }
+         if(!DB::table('users')->where('name', 'user')->first()){
+             DB::table('users')->Insert(
+                 [
+                     'name'=>'user',
+                     'email'=>'user@user.com',
+                     'password'=>bcrypt('password'),
+                     'created_at'=>now(),
+                     'updated_at'=>now()
+                 ]
+             );
+         }
     }
 
 }

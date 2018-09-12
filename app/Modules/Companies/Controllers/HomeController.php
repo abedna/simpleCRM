@@ -35,7 +35,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-       // $company = Company::findOrFail(1);
+
+
+        $company = Company::findOrFail(500);
         $companies = Company::orderBy('id', 'desc')->paginate(5);
         $wages= $this->getHighestWages();
         return view('Companies::home', compact('companies','wages'));

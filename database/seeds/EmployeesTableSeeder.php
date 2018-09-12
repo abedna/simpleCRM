@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use App\Company;
+use App\Modules\Companies\Models\Company;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class EmployeesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create('App\Employee');
+        $faker = Faker::create('App\Modules\Companies\Models\Employee');
 
         $comp = Company::all();
         foreach ($comp as $key => $value) {

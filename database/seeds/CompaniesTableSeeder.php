@@ -13,7 +13,7 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker=Faker::create('App\Company');
+        $faker=Faker::create('App\Modules\Companies\Models\Company');
 
         for ($i = 0; $i < 10; $i++) {
             DB::table('companies')->Insert(
