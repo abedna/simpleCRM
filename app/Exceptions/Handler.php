@@ -6,12 +6,9 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\RelationNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use League\Flysystem\Config;
-use PHPUnit\Framework\MockObject\RuntimeException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-use Symfony\Component\Debug\Exception\FlattenException;
 
 class Handler extends ExceptionHandler
 {
@@ -54,20 +51,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-          if ($exception instanceof FatalErrorException  && \Config::get('app.debug')==true) {
+          
+          if ($exception instanceof FatalErrorException  && config('app.debug')==true) {
               $exception = new HttpException(500, "Server error");
           }
 
-          if ($exception instanceof ModelNotFoundException  && \Config::get('app.debug')==true) {
+          if ($exception instanceof ModelNotFoundException  && config('app.debug')==true) {
           $exception = new HttpException(500, "Model not found");
           }
 
-          if ($exception instanceof RelationNotFoundException  && \Config::get('app.debug')==true) {
+          if ($exception instanceof RelationNotFoundException  && config('app.debug')==true) {
           $exception = new HttpException(500, "Relation not found");
           }
 
-          if (\Config::get('app.debug')==true && $exception->getStatusCode()==403)  {
+          if (config('app.debug')==true && $exception->getStatusCode()==403)  {
           $exception = new HttpException(403, "Not allowed");
           //dd($exception->getMessage());
           //return response()->view('errors.403');
