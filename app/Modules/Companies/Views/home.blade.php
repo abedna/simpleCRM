@@ -61,31 +61,36 @@
                         <div class="row justify-content-center">
                             {{ $companies->links() }}
                         </div>
-                        <div style="padding-top: 10px; padding-bottom: 10px">
-                            <h5></h5>
-                        <div class="col-6">
-                            <h5>{{__('translations.Best paid employees')}}</h5>
-                            <table class="table table-responsive-sm table-responsive-md table table-responsive-lg ">
-                                <tr class="table-secondary">
-                                    <td>{{__('translations.Company')}}</td>
-                                    <td>{{__('translations.Employee')}}</td>
-                                    <td>{{__('translations.Salary')}}</td>
-                                </tr>
-                                @foreach($wages as $company=>$employee)
-                                    @if(is_null($employee))
-                                    <td>{{$company}}</td>
-                                    <td>No employees at the moment</td>
-                                    <td>-</td>
-                                        @else
-                                    <tr>
-                                        <td>{{$company}}</td>
-                                        <td>{{$employee->firstName}} {{$employee->lastName}}</td>
-                                        <td>{{$employee->salary}} PLN</td>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5>{{__('translations.Best paid employees')}}</h5>
+                                <table class="table table-responsive-sm table-responsive-md table table-responsive-lg ">
+                                    <tr class="table-secondary">
+                                        <td>{{__('translations.Company')}}</td>
+                                        <td>{{__('translations.Employee')}}</td>
+                                        <td>{{__('translations.Salary')}}</td>
                                     </tr>
-                                    @endif
-                                @endforeach
-                            </table>
-                        </div>
+                                    @foreach($wages as $company=>$employee)
+                                        @if(is_null($employee))
+                                        <td>{{$company}}</td>
+                                        <td>No employees at the moment</td>
+                                        <td>-</td>
+                                            @else
+                                        <tr>
+                                            <td>{{$company}}</td>
+                                            <td>{{$employee->firstName}} {{$employee->lastName}}</td>
+                                            <td>{{$employee->salary}} PLN</td>
+                                        </tr>
+                                        @endif
+                                    @endforeach
+                                </table>
+                            </div>
+                            @role('admin')
+                            <div class="col-6">
+                            <h5>{{__('translations.Download info')}}</h5>
+                               <a class="btn btn-info" href="/downloadInfo">.xlsx</a>
+                            </div>
+                            @endrole
                         </div>
                         @role('admin')
                         <p class="h5">{{__('translations.Add new company')}}</p>

@@ -51,9 +51,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-          
+
+            dd($exception);
           if ($exception instanceof FatalErrorException  && config('app.debug')==true) {
-              $exception = new HttpException(500, "Server error");
+             // $exception = new HttpException(500, "Server error");
           }
 
           if ($exception instanceof ModelNotFoundException  && config('app.debug')==true) {

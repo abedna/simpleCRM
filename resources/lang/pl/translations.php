@@ -19,5 +19,7 @@ return[
     "Record removed" => "Rekord usunięty",
     "New record added" => "Dodano nowy rekord",
     "Can't remove company with existing employees" => "Nie można usunąć firmy z istniejącymi pracownikami",
-    "Record updated" => "Rekord zaktualizowany"
+    "Record updated" => "Rekord zaktualizowany",
+    "Download info" => "Pobierz info",
+    "Download" => "Pobierz"
 ];

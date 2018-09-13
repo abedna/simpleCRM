@@ -39,4 +39,6 @@ Route::group([
 
         Route::post('companies/{company}/employees/{employee}/update', 'EmployeesController@update');
 
+        Route::get('downloadInfo', 'ExportController@exportInfo');
+
 });

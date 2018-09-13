@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
+
 class HomeController extends Controller
 {
     /**
@@ -35,9 +36,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-
-        $company = Company::findOrFail(500);
         $companies = Company::orderBy('id', 'desc')->paginate(5);
         $wages= $this->getHighestWages();
         return view('Companies::home', compact('companies','wages'));
