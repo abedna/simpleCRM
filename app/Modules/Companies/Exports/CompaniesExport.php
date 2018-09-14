@@ -28,7 +28,7 @@ class CompaniesExport implements FromCollection, WithMultipleSheets
 
         foreach ($this->collection() as $company) {
 
-           $sheets[] = new EmployeesSheetExport($company['id'], $company['Name']);
+           $sheets[] = new EmployeesSheet($company['id'], $company['Name']);
         }
 
         return $sheets;

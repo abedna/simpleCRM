@@ -2,8 +2,8 @@
 
 namespace App\Modules\Companies\Exports;
 
+use App\Modules\Companies\Exports\Events\StyleFontSize;
 use App\Modules\Companies\Models\Employee;
-use App\Modules\Companies\Models\Company;
 use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
@@ -11,7 +11,11 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class EmployeesSheetExport implements FromCollection, WithTitle, WithHeadings, WithEvents
+use App\Modules\Companies\Exports\Events\StyleHighestSalary;
+use App\Modules\Companies\Exports\EventsStyleFontSize;
+
+
+class EmployeesSheet implements FromCollection, WithTitle, WithHeadings, WithEvents
 {
     protected $companyId;
     protected $companyName;
@@ -21,13 +25,13 @@ class EmployeesSheetExport implements FromCollection, WithTitle, WithHeadings, W
         $this->companyId = $companyId;
         $this->companyName = $companyName;
     }
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
         return Employee::with('companies')->where('company', $this->companyId)->get();
-        //return Employee::all();
     }
 
     /**
@@ -46,17 +50,15 @@ class EmployeesSheetExport implements FromCollection, WithTitle, WithHeadings, W
        return Schema::getColumnListing('employees');
     }
 
-
     /**
      * @return array
      */
     public function registerEvents(): array
     {
         return [
-        AfterSheet::class => function(AfterSheet $event) {
-
-
-        }
+            AfterSheet::class => New StyleHighestSalary($this->companyId),
+            AfterSheet::class => New StyleFontSize()
         ];
     }
+
 }
