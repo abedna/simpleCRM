@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Role;
-use  App\User;
+use App\User;
 use App\Permission;
 
 class RolesPermissionsSeeder extends Seeder
@@ -14,37 +14,21 @@ class RolesPermissionsSeeder extends Seeder
      */
     public function run()
     {
-        try {
-            $admin = new Role();
-            $admin->name = 'admin';
-            $admin->display_name = 'Administrator';
-            $admin->save();
+            $adminRole = Role::firstOrCreate(['name'=>'admin', 'display_name' => 'Administrator']);
+            $userRole = Role::firstOrCreate(['name'=>'user','display_name' => 'Regular User']);
+ 
+            $admin = User::where('name', '=', 'admin')->first();
+            $user = User::where('name', '=', 'user')->first();
 
-            $user = new Role();
-            $user->name = 'user';
-            $user->display_name = 'Regular User';
-            $user->save();
+            $admin->roles()->attach($adminRole->id);
+            $user->roles()->attach($userRole->id);
 
-            $adminRole = User::where('name', '=', 'admin')->first();
-            $adminRole->roles()->attach($admin->id);
+            $unlimited = Permission::firstOrCreate(['name' => 'unlimited']);
+            $view = Permission::firstOrCreate(['name' => 'view']);
 
-            $userRole = User::where('name', '=', 'user')->first();
-            $userRole->roles()->attach($user->id);
+            $adminRole->perms()->attach($unlimited->id);
+            $userRole->perms()->attach($view->id);
 
-            $unlimited = new Permission();
-            $unlimited->name = 'unlimited';
-            $unlimited->save();
-
-            $view = new Permission();
-            $view->name = 'view';
-            $view->save();
-
-            //$admin->attachPermmission($unlimited);
-            //$user->attachPermission($view);
-            $admin->perms()->sync(array($unlimited->id));
-            $user->perms()->sync(array($view->id));
-        }catch (Exception $e){
-            echo "Roles admin and user filled in db\n";
-        }
+    
     }
 }

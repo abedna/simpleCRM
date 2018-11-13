@@ -149,7 +149,7 @@ class HomeController extends Controller
     public function getHighestWages()
     {
         $companies = Company::all();
-
+        $wages = [];
         foreach ($companies as $company) {
 
             $wages[$company->getAttribute('Name')] = Employee::with('companies')

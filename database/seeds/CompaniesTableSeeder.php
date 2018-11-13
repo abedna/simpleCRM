@@ -13,6 +13,8 @@ class CompaniesTableSeeder extends Seeder
      */
     public function run()
     {
+        if(!is_dir('public/upload')) mkdir('public/upload', 0777, true);
+     
         $faker=Faker::create('App\Modules\Companies\Models\Company');
 
         for ($i = 0; $i < 10; $i++) {
