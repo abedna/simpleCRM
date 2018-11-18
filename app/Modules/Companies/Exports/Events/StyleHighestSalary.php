@@ -25,25 +25,23 @@ class StyleHighestSalary
 
     public function __invoke(AfterSheet $event)
     {
-
-        $highest = Employee::with('companies')->where('company', $this->companyId)->orderByDesc('salary')->first();
-        $highest=$highest->salary;
-
+        $highestSalary = Employee::where('company', $this->companyId)->max('salary');
+        if ($highestSalary != null) {
         $conditional1 = (new Conditional())
             ->setConditionType(Conditional::CONDITION_CELLIS)
             ->setOperatorType(Conditional::OPERATOR_EQUAL)
-            ->addCondition($highest);
+            ->addCondition($highestSalary);
 
         $conditional1->getStyle()->getFont()->getColor()->setARGB(Color::COLOR_RED);
         $conditional1->getStyle()->getFont()->setBold(true);
 
         $col = $event->sheet->getDelegate()->getHighestDataColumn();
         $row = $event->sheet->getDelegate()->getHighestDataRow();
-        $cellCoordinate=$col.'2:'.$col.$row;
+        $cellCoordinate = $col.'2:'.$col.$row;
 
-        $conditionalStyles = $event->sheet->getDelegate()->getStyle($cellCoordinate)->getConditionalStyles();
         $conditionalStyles[] = $conditional1;
         $event->sheet->getDelegate()->getStyle($cellCoordinate)->setConditionalStyles($conditionalStyles);
+        };
 
     }
 

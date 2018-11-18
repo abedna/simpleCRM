@@ -3,6 +3,7 @@
 namespace App\Modules\Companies\Exports;
 
 use App\Modules\Companies\Exports\Events\StyleFontSize;
+use App\Modules\Companies\Exports\Events\StyleHighestSalary;
 use App\Modules\Companies\Models\Employee;
 use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -11,8 +12,8 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-use App\Modules\Companies\Exports\Events\StyleHighestSalary;
-use App\Modules\Companies\Exports\EventsStyleFontSize;
+
+//use App\Modules\Companies\Exports\EventsStyleFontSize;
 
 
 class EmployeesSheet implements FromCollection, WithTitle, WithHeadings, WithEvents
@@ -31,7 +32,7 @@ class EmployeesSheet implements FromCollection, WithTitle, WithHeadings, WithEve
     */
     public function collection()
     {
-        return Employee::with('companies')->where('company', $this->companyId)->get();
+        return Employee::where('company', $this->companyId)->get();
     }
 
     /**
@@ -56,8 +57,9 @@ class EmployeesSheet implements FromCollection, WithTitle, WithHeadings, WithEve
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => New StyleHighestSalary($this->companyId),
-            AfterSheet::class => New StyleFontSize()
+            AfterSheet::class => New StyleFontSize(),
+            AfterSheet::class => New StyleHighestSalary($this->companyId)
+
         ];
     }
 

@@ -20,9 +20,6 @@ class ExportController extends Controller
     public function exportInfo()
     {
         $date = Carbon::now()->format('Y-m-d');
-
-        return Excel::download(new CompaniesExport, 'companies'.$date.'.xlsx');
-
         return (new CompaniesExport)->download('companies'.$date.'.xlsx');
     }
 
