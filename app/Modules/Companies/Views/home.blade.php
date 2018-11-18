@@ -72,10 +72,12 @@
                                     </tr>
                                     @foreach($wages as $company=>$employee)
                                         @if(is_null($employee))
-                                        <td>{{$company}}</td>
-                                        <td>No employees at the moment</td>
-                                        <td>-</td>
-                                            @else
+                                            <tr>
+                                            <td>{{$company}}</td>
+                                            <td>No employees at the moment</td>
+                                            <td>-</td>
+                                            </tr>
+                                        @else
                                         <tr>
                                             <td>{{$company}}</td>
                                             <td>{{$employee->firstName}} {{$employee->lastName}}</td>
