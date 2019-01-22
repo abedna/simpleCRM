@@ -10,8 +10,9 @@
 
                     <div class="card-body">
 
-                        <form class="myform" method="post" action={{URL::to('companies/'.$company->id.'/update')}} enctype="multipart/form-data">
-                            {{csrf_field()}}
+                        <form method="post" action={{ route('companies.update', ['company' => $company->id])}} enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('patch') }}
                             <div class="row">
                             <div class="form-group col-6">
                                 <label for="Name">Company Name</label>

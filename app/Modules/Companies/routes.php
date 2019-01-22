@@ -27,7 +27,7 @@ Route::group([
            // 'middleware' => ['role:admin'],
         ]);
 
-        Route::post('companies/{company}/update', 'HomeController@update')->name('update');
+        Route::patch('companies/{company}', 'HomeController@update')->name('companies.update');
 
         Route::get('companies/{company}/employees', 'EmployeesController@show')->name('listemployees');
 
@@ -37,7 +37,7 @@ Route::group([
 
         Route::get('companies/{company}/employees/{employee}/edit', 'EmployeesController@edit');
 
-        Route::post('companies/{company}/employees/{employee}/update', 'EmployeesController@update');
+        Route::patch('companies/{company}/employees/{employee}', 'EmployeesController@update')->name('employees.update');
 
         Route::get('downloadInfo', 'ExportController@exportInfo');
 

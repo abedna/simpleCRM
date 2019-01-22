@@ -11,8 +11,9 @@
 
                     <div class="card-body">
 
-                        <form class="myform" method="post" action="/companies/{{$employee->company}}/employees/{{$employee->id}}/update">
-                            {{csrf_field()}}
+                        <form method="post" action="{{ route('employees.update', ['company' => $employee->company, 'employee' => $employee->id]) }}">
+                            {{ csrf_field() }}
+                            {{ method_field('patch') }}
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="firstName">First Name</label>
