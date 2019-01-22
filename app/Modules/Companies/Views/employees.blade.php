@@ -54,7 +54,11 @@
                                 @role('admin')
                                 <td>
                                     <a class="btn btn-outline-info" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/edit">Edit</a>
-                                    <a class="btn btn-outline-danger" href="/companies/{{$employee->company}}/employees/{{$employee->id}}/delete">Delete</a>
+                                    <form method="post" action="{{ route('employees.delete', ['company' => $employee->company, 'employee' =>$employee->id]) }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('delete') }}
+                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                    </form>
                                 </td>
                                 @endrole
                             </tr>

@@ -20,7 +20,7 @@ Route::group([
 
         Route::get('companies/{company}', 'HomeController@view');
 
-        Route::get('companies/{company}/delete', 'HomeController@destroy');
+        Route::delete('companies/{company}', 'HomeController@destroy')->name('companies.delete');
 
         Route::get('companies/{company}/edit', [
             'uses' => 'HomeController@edit',
@@ -33,7 +33,7 @@ Route::group([
 
         Route::post('companies/{company}/employees', 'EmployeesController@store');
 
-        Route::get('companies/{company}/employees/{employee}/delete', 'EmployeesController@delete');
+        Route::delete('companies/{company}/employees/{employee}', 'EmployeesController@delete')->name('employees.delete');
 
         Route::get('companies/{company}/employees/{employee}/edit', 'EmployeesController@edit');
 

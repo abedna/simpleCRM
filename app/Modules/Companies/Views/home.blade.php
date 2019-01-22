@@ -49,7 +49,11 @@
                                     <td>
                                         @role('admin')
                                         <a class="btn btn-outline-info" href="/companies/{{$company->id}}/edit">{{__('translations.Edit')}}</a>
-                                        <a class="btn btn-outline-danger" href="/companies/{{$company->id}}/delete" data-method="delete">{{__('translations.Delete')}}</a>
+                                        <form method="post" action="{{ route('companies.delete', ['company' => $company->id]) }}">
+                                            {{ csrf_field() }}
+                                            {{ method_field('delete') }}
+                                            <button type="submit" class="btn btn-outline-danger">{{__('translations.Delete')}}</button>
+                                        </form>
                                         @endrole
                                         <a class="btn btn-outline-dark" href="/companies/{{$company->id}}/employees">{{__('translations.View Employees')}}</a>
                                     </td>
