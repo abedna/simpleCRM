@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 
-class HomeController extends Controller
+class CompaniesController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         $company->save();
 
-        return redirect('home')->with('message', 'New record added');
+        return redirect('companies.index')->with('message', 'New record added');
     }
 
     public function destroy($id)
@@ -74,7 +74,7 @@ class HomeController extends Controller
 
         if ($company->employees->first()) {
 
-            return redirect('home')->with('message-removed', 'Can\'t remove company with existing employees') ;
+            return redirect('companies.index')->with('message-removed', 'Can\'t remove company with existing employees') ;
         }
 
         //TODO znajdż url logo
@@ -88,7 +88,7 @@ class HomeController extends Controller
         $company->forceDelete();
         }
 
-        return redirect('home')->with('message-removed', 'Record removed');
+        return redirect('companies.index')->with('message-removed', 'Record removed');
     }
 
     public function edit($id)
@@ -135,7 +135,7 @@ class HomeController extends Controller
         $this->setFields($company, $validated, $company->logo, $request);
         $company->save();
 
-        return redirect('home')->with('message', 'Record updated');
+        return redirect('companies.index')->with('message', 'Record updated');
     }
 
     public function view($id)

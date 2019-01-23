@@ -14,20 +14,20 @@ Route::group([
         //2.
         Auth::routes();
 
-        Route::get('home', 'HomeController@index')->name('home');
+        Route::get('companies', 'CompaniesController@index')->name('companies.index');
 
-        Route::post('companies/post', 'HomeController@store');
+        Route::post('companies/post', 'CompaniesController@store');
 
-        Route::get('companies/{company}', 'HomeController@view');
+        Route::get('companies/{company}', 'CompaniesController@view');
 
-        Route::delete('companies/{company}', 'HomeController@destroy')->name('companies.delete');
+        Route::delete('companies/{company}', 'CompaniesController@destroy')->name('companies.delete');
 
         Route::get('companies/{company}/edit', [
-            'uses' => 'HomeController@edit',
+            'uses' => 'CompaniesController@edit',
            // 'middleware' => ['role:admin'],
         ]);
 
-        Route::patch('companies/{company}', 'HomeController@update')->name('companies.update');
+        Route::patch('companies/{company}', 'CompaniesController@update')->name('companies.update');
 
         Route::get('companies/{company}/employees', 'EmployeesController@show')->name('listemployees');
 

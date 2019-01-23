@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header h5">Employees at <b><a href="/companies/{{$company->id}}">{{$company->Name}}</a></b>
-                        <div style="float:right"><a href="/home">Companies</a> </div>
+                        <div style="float:right"><a href="{{ route('companies.index') }}">Companies</a> </div>
                     </div>
                     <div class="card-body">
 
