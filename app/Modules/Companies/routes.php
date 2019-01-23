@@ -29,7 +29,7 @@ Route::group([
 
         Route::patch('companies/{company}', 'CompaniesController@update')->name('companies.update');
 
-        Route::get('companies/{company}/employees', 'EmployeesController@show')->name('listemployees');
+        Route::get('companies/{company}/employees', 'EmployeesController@index')->name('employees.index');
 
         Route::post('companies/{company}/employees', 'EmployeesController@store');
 

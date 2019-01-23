@@ -19,7 +19,7 @@ class EmployeesController extends Controller
     }
 
     //passes id parameter
-    public function show($id)
+    public function index($id)
     {
         $company = Company::find($id);
         $employees = Employee::with('companies')->where('company', $id)->get();
@@ -80,7 +80,7 @@ class EmployeesController extends Controller
         $employee->phone = $validated['phone'];
         $employee->save();
 
-        return redirect()->route('listemployees', ['company' => $company])->with('message','Record updated');
+        return redirect()->route('employees.index', ['company' => $company])->with('message','Record updated');
     }
 
     public function delete($company, $employee)
@@ -92,7 +92,7 @@ class EmployeesController extends Controller
         $employee = Employee::find($employee);
         $employee->forceDelete();
 
-        return redirect()->route('listemployees', ['company' => $company])->with('deleted', 'Record deleted');
+        return redirect()->route('employees.index', ['company' => $company])->with('deleted', 'Record deleted');
     }
 
 

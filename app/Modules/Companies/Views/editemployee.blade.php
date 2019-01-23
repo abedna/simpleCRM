@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="form-group float-right">
-                                <a class="btn btn-secondary" href={!! route('listemployees', ['company' => $employee->company]) !!}>Cancel</a>
+                                <a class="btn btn-secondary" href={!! route('employees.index', ['company' => $employee->company]) !!}>Cancel</a>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
