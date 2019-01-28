@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use App\Modules\Companies\Requests\StoreCompany;
+use App\Modules\Companies\Requests\UpdateCompany;
 
 
 class CompaniesController extends Controller
@@ -105,22 +106,8 @@ class CompaniesController extends Controller
 
     }
 
-    public function update(Request $request, Company $company)
+    public function update(UpdateCompany $request, Company $company)
     {
-        $customErrorMessages = [
-            'url'=>'The website address must have such form: https://domainname.extension '
-        ];
-
-        $validationRules = [
-            'Name' => 'required',
-            'email'=>'required|email',
-            'website'=>'required|url',
-            'logo'=>'image',
-            'description'=>'required'
-        ];
-
-        $validated = $this->validate($request, $validationRules, $customErrorMessages);
-
         if ($request->file(('logo'))) {
             $file = $request->file('logo');
             $randomFileName = $this->getRandomFileName($file);
@@ -128,10 +115,10 @@ class CompaniesController extends Controller
 
             $url = $company->logo;
             Storage::delete($url);
-            $this->setFields($company, $validated,'upload/'.$randomFileName);
+            $this->setFields($company, $request,'upload/'.$randomFileName);
         }
 
-        $this->setFields($company, $validated, $company->logo, $request);
+        $this->setFields($company, $request, $company->logo, $request);
         $company->save();
 
         return redirect()->route('companies.index')->with('message', 'Record updated');
@@ -187,20 +174,4 @@ class CompaniesController extends Controller
         $company->description=$request->description;
     }
 
-//    public function validateForm(Request $request)
-//    {
-//        $customErrorMessages=[
-//            'url'=>'The website address must have such form: https://domainname.extension '
-//        ];
-//
-//        $validationRules=[
-//            'Name' => 'required',
-//            'email'=>'required|email',
-//            'website'=>'required|url',
-//            'logo'=>'required|image',
-//            'description'=>'required'
-//        ];
-//
-//        return $this->validate($request, $validationRules, $customErrorMessages);
-//    }
 }
