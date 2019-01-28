@@ -80,7 +80,7 @@
                                 <small class="text-danger">{{ $errors->first('description') }}</small>
                             </div>
                             <div class="form-group float-right">
-                                <a class="btn btn-secondary" href = {{route('home')}}>Cancel</a>
+                                <a class="btn btn-secondary" href = {{route('companies.index')}}>Cancel</a>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
 
