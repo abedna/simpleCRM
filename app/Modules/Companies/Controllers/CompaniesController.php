@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use App\Modules\Companies\Requests\StoreCompany;
 
 
 class CompaniesController extends Controller
@@ -41,10 +42,8 @@ class CompaniesController extends Controller
         return view('Companies::home', compact('companies','wages'));
     }
 
-    public function store(Request $request)
+    public function store(StoreCompany $request)
     {
-        $validated = $this->validateForm($request);
-
         //TODO wyodrębnij plik z requesta
 
         $file = $request->file('logo');
@@ -57,11 +56,11 @@ class CompaniesController extends Controller
 
         $company = new Company;
 
-        $this->setFields($company, $validated,'upload/'.$randomFileName);
+        $this->setFields($company, $request,'upload/'.$randomFileName);
 
         $company->save();
 
-        return redirect('companies.index')->with('message', 'New record added');
+        return redirect()->route('companies.index')->with('message', 'New record added');
     }
 
     public function destroy($id)
@@ -74,7 +73,7 @@ class CompaniesController extends Controller
 
         if ($company->employees->first()) {
 
-            return redirect('companies.index')->with('message-removed', 'Can\'t remove company with existing employees') ;
+            return redirect()->route('companies.index')->with('message-removed', 'Can\'t remove company with existing employees') ;
         }
 
         //TODO znajdż url logo
@@ -88,7 +87,7 @@ class CompaniesController extends Controller
         $company->forceDelete();
         }
 
-        return redirect('companies.index')->with('message-removed', 'Record removed');
+        return redirect()->route('companies.index')->with('message-removed', 'Record removed');
     }
 
     public function edit($id)
@@ -135,7 +134,7 @@ class CompaniesController extends Controller
         $this->setFields($company, $validated, $company->logo, $request);
         $company->save();
 
-        return redirect('companies.index')->with('message', 'Record updated');
+        return redirect()->route('companies.index')->with('message', 'Record updated');
     }
 
     public function view($id)
@@ -179,29 +178,29 @@ class CompaniesController extends Controller
         return $randomFileName. '.' .$extension;
     }
 
-    public function setFields(Company $company, $validated, $filePath)
+    public function setFields(Company $company, Request $request, $filePath)
     {
-        $company->Name = $validated['Name'];
-        $company->email = $validated['email'];
-        $company->website = $validated['website'];
+        $company->Name = $request->Name;
+        $company->email = $request->email;
+        $company->website = $request->website;
         $company->logo = $filePath;
-        $company->description=$validated['description'];
+        $company->description=$request->description;
     }
 
-    public function validateForm(Request $request)
-    {
-        $customErrorMessages=[
-            'url'=>'The website address must have such form: https://domainname.extension '
-        ];
-
-        $validationRules=[
-            'Name' => 'required',
-            'email'=>'required|email',
-            'website'=>'required|url',
-            'logo'=>'required|image',
-            'description'=>'required'
-        ];
-
-        return $this->validate($request, $validationRules, $customErrorMessages);
-    }
+//    public function validateForm(Request $request)
+//    {
+//        $customErrorMessages=[
+//            'url'=>'The website address must have such form: https://domainname.extension '
+//        ];
+//
+//        $validationRules=[
+//            'Name' => 'required',
+//            'email'=>'required|email',
+//            'website'=>'required|url',
+//            'logo'=>'required|image',
+//            'description'=>'required'
+//        ];
+//
+//        return $this->validate($request, $validationRules, $customErrorMessages);
+//    }
 }
