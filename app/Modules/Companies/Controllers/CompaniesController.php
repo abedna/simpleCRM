@@ -3,16 +3,10 @@
 namespace App\Modules\Companies\Controllers;
 
 use Illuminate\Http\Request;
-use Zizaco\Entrust\EntrustFacade as Entrust;
-//use App\Company;
-//use App\Employee;
 use App;
 use App\Modules\Companies\Models\Company;
 use App\Modules\Companies\Models\Employee;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 use App\Modules\Companies\Requests\StoreCompany;
 use App\Modules\Companies\Requests\UpdateCompany;
 
@@ -28,7 +22,6 @@ class CompaniesController extends Controller
     {
        $this->middleware('auth');
        $this->middleware(['role:admin'], ['except'=>['index', 'view']]);
-      // dd($this->getMiddleware());
     }
 
     /**
@@ -45,65 +38,34 @@ class CompaniesController extends Controller
 
     public function store(StoreCompany $request)
     {
-        //TODO wyodrębnij plik z requesta
-
         $file = $request->file('logo');
-
-        //TODO wyodrębnij do zmiennej $filename nazwę pliku (+rozszerzenie)
         $randomFileName=$this->getRandomFileName($file);
-
-        //TODO zapisz plik do katalogu public
         $file ->storePubliclyAs('/upload', $randomFileName);
 
         $company = new Company;
-
         $this->setFields($company, $request,'upload/'.$randomFileName);
-
         $company->save();
-
         return redirect()->route('companies.index')->with('message', 'New record added');
     }
 
     public function destroy($id)
     {
-        //if (!Entrust::hasRole('admin')){
-           // abort('403','You are not allowed to send this request');
-            //return redirect('home');
-       // }
         $company = Company::find($id);
-
         if ($company->employees->first()) {
-
             return redirect()->route('companies.index')->with('message-removed', 'Can\'t remove company with existing employees') ;
         }
-
-        //TODO znajdż url logo
         $url = $company->logo;
-
-        //TODO usuń plik z public/upload
         Storage::delete($url);
-
-        //TODO usuń plik z BD
         if ($company) {
         $company->forceDelete();
         }
-
         return redirect()->route('companies.index')->with('message-removed', 'Record removed');
     }
 
     public function edit($id)
     {
-        //if (!Entrust::hasRole('admin')) {
-
-            //return redirect('home');
-       // }
-        //TODO znajdź firmę o id z przekazanego parametru
         $company = Company::find($id);
-
-        //TODO przekaż obiekt company do formularza
         return view('Companies::editcompany', compact('company'));
-
-
     }
 
     public function update(UpdateCompany $request, Company $company)
@@ -117,10 +79,8 @@ class CompaniesController extends Controller
             Storage::delete($url);
             $this->setFields($company, $request,'upload/'.$randomFileName);
         }
-
         $this->setFields($company, $request, $company->logo, $request);
         $company->save();
-
         return redirect()->route('companies.index')->with('message', 'Record updated');
     }
 
@@ -128,7 +88,6 @@ class CompaniesController extends Controller
     {
         $company = Company::findOrFail($id);
         $numberOfEmployees = $company->employees()->count();
-
         return view('Companies::viewcompany', compact('company', 'numberOfEmployees'));
     }
 
@@ -137,23 +96,11 @@ class CompaniesController extends Controller
         $companies = Company::all();
         $wages = [];
         foreach ($companies as $company) {
-
             $wages[$company->getAttribute('Name')] = Employee::with('companies')
                                                         ->where('company', $company->getAttribute('id'))
                                                         ->orderByDesc('salary')
                                                         ->first();
-           /**
-            $wages[$company->getAttribute('id')] = [
-                                                        Employee::with('companies')
-                                                        ->where('company',$company->getAttribute('id'))
-                                                        ->orderByDesc('salary')
-                                                        ->first(),
-                                                        $company->getAttribute('Name')
-                                                        ];
-            **/
-
         }
-
         return $wages;
     }
 
@@ -161,7 +108,6 @@ class CompaniesController extends Controller
     {
         $extension = $file->getClientOriginalExtension();
         $randomFileName = rand();
-
         return $randomFileName. '.' .$extension;
     }
 
