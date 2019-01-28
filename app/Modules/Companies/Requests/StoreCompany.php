@@ -3,6 +3,7 @@
 namespace App\Modules\Companies\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Zizaco\Entrust\EntrustFacade as Entrust;
 
 class StoreCompany extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreCompany extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Entrust::hasRole('admin');
     }
 
     /**
