@@ -2,7 +2,7 @@
 
 
 ## How to Install
-1. Clone the project `git clone https://alksndr2@bitbucket.org/alksndr2/simplecrm.git`
+1. Clone the project `git clone https://github.com/abedna/simpleCRM.git`
 2. Go to the application folder using cd command on your cmd or terminal `$ cd simplecrm`
 3. Run `$ composer install` on your cmd or terminal 
 4. Create database on MySQL
